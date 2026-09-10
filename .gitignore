@@ -1,0 +1,15 @@
+# Entorno virtual
+.venv/
+
+# Cache de Python
+__pycache__/
+*.pyc
+
+# Pesos del modelo (se descargan solos)
+*.pt
+
+# Videos y salidas (pesan mucho, se regeneran)
+datos/videos/*
+datos/salidas/*
+!datos/videos/.gitkeep
+!datos/salidas/.gitkeep
