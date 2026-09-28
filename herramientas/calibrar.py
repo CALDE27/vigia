@@ -1,4 +1,13 @@
 """Herramienta de calibracion de las regiones de interes.
+
+Abre un cuadro del video y permite marcar los lugares de estacionamiento
+con cuatro clics cada uno. Guarda el resultado en config/regiones.json
+con coordenadas normalizadas entre 0 y 1.
+
+Uso:
+    python herramientas\\calibrar.py --fuente datos\\videos\\prueba.mp4 --frame 300
+"""
+
 from __future__ import annotations
 
 import argparse
