@@ -133,7 +133,7 @@ def imprimir_tabla(
         if asignacion is None:
             print(f"{region.espacio:<6} {'libre':<8}")
             continue
-        criterio = "apoyo" if asignacion.por_apoyo else "cobertura"
+        criterio = asignacion.criterio
         print(
             f"{region.espacio:<6} {'ocupado':<8} {asignacion.deteccion.clase:<11} "
             f"{asignacion.deteccion.confianza:>5.2f} {asignacion.cobertura:>5.2f}  {criterio}"
