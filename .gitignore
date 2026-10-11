@@ -13,3 +13,5 @@ datos/videos/*
 datos/salidas/*
 !datos/videos/.gitkeep
 !datos/salidas/.gitkeep
+
+datos/*.db

@@ -4,10 +4,17 @@ No hace falta levantar el servidor: TestClient habla con la aplicacion
 directamente en memoria, asi que corren igual de rapido que las demas.
 """
 
+import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Estas pruebas verifican la capa HTTP, no la persistencia: corren contra
+# el guion de datos falsos. La base de datos tiene las suyas en
+# test_almacen.py. Esta linea va antes de importar api, porque la
+# configuracion lee el entorno al importarse.
+os.environ["VIGIA_FALSOS"] = "1"
 
 import pytest
 from fastapi.testclient import TestClient

@@ -15,11 +15,18 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from api import esquemas, falsos
-from api.configuracion import CLAVE_SERVICIO, VERSION, leer_espacios
+from api import almacen, esquemas, falsos
+from api.configuracion import (CLAVE_SERVICIO, RUTA_BASE, USAR_FALSOS,
+                               VERSION, leer_espacios)
+from api.errores import ErrorVigia
 
 ESPACIOS = leer_espacios()
-memoria = falsos.Memoria(ESPACIOS)
+
+# Por omision el backend usa la base de datos. Con VIGIA_FALSOS=1 vuelve
+# al guion del tramo 6, que es como el frontend puede trabajar sin que
+# nadie este publicando estados reales.
+memoria = (falsos.Memoria(ESPACIOS) if USAR_FALSOS
+           else almacen.Almacen(ESPACIOS, RUTA_BASE))
 
 app = FastAPI(
     title="Vigia - API",
@@ -43,15 +50,6 @@ app.add_middleware(
 )
 
 
-# --- Errores con la forma del contrato ---------------------------------
-
-class ErrorVigia(Exception):
-    """Un error del dominio, con el cuerpo que define el contrato."""
-
-    def __init__(self, estado: int, error: str, detalle: str) -> None:
-        self.estado = estado
-        self.error = error
-        self.detalle = detalle
 
 
 @app.exception_handler(ErrorVigia)
@@ -171,15 +169,12 @@ def obtener_transiciones(
         raise ErrorVigia(
             404, "no_encontrado", f"El lugar {espacio} no esta en la calibracion."
         )
-    # `corrida` se acepta porque es parte del contrato, pero esta version
-    # guarda una sola corrida en memoria y lo ignora. La base de datos
-    # del tramo siguiente lo va a usar.
     return memoria.listar_transiciones(
-        espacio=espacio,
-        desde=desde,
-        hasta=hasta,
-        limite=limite,
-        desplazamiento=desplazamiento,
+            espacio=espacio,
+            desde=desde,
+            hasta=hasta,
+            corrida=corrida,
+            limite=limite,
     )
 
 

@@ -25,6 +25,12 @@ RUTA_REGIONES = Path(os.environ.get("VIGIA_REGIONES", RAIZ / "config" / "regione
 # Cuantos segundos reales dura un ciclo completo del guion de prueba.
 CICLO_S = 120
 
+# El archivo de la base de datos.
+RUTA_BASE = Path(os.environ.get("VIGIA_BASE", RAIZ / "datos" / "vigia.db"))
+
+# Con VIGIA_FALSOS=1 el backend vuelve al guion del tramo 6 en lugar de
+# usar la base. Sirve para que el frontend trabaje sin publicaciones.
+USAR_FALSOS = os.environ.get("VIGIA_FALSOS", "") == "1"
 
 def leer_espacios() -> list[str]:
     """Devuelve los identificadores de lugares de la calibracion."""

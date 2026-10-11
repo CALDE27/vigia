@@ -146,7 +146,7 @@ class Memoria:
             lugares=lugares,
         )
 
-    def listar_transiciones(self, espacio=None, desde=None, hasta=None,
+    def listar_transiciones(self, espacio=None, desde=None, hasta=None, corrida=None,
                             limite=100, desplazamiento=0):
         if not self.publicado:
             self._simular()
