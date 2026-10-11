@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vigía · Tablero</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <h1 class="marca">VIGÍA</h1>
+    <p class="bajada">Estado del estacionamiento en vivo</p>
+  </header>
+
+  <main>
+
+    <p id="aviso" class="aviso aviso--oculto" role="status"></p>
+
+    <section class="resumen">
+      <div class="tarjeta-resumen">
+        <span id="resumen-libres" class="numero">—</span>
+        <span class="etiqueta">libres</span>
+      </div>
+      <div class="tarjeta-resumen">
+        <span id="resumen-ocupados" class="numero">—</span>
+        <span class="etiqueta">ocupados</span>
+      </div>
+      <div class="tarjeta-resumen">
+        <span id="resumen-total" class="numero">—</span>
+        <span class="etiqueta">lugares</span>
+      </div>
+    </section>
+
+    <section id="tablero" class="tablero" aria-live="polite"></section>
+
+    <footer class="pie">
+      <span id="hora-simulada">—</span>
+      <span id="frescura">—</span>
+    </footer>
+
+  </main>
+
+  <script src="tablero.js"></script>
+
+</body>
+</html>
