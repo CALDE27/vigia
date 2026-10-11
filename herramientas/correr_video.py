@@ -22,6 +22,7 @@ sys.path.insert(0, str(RAIZ))
 from vision.asociacion import asignar, cargar_regiones, estado_de_espacios  # noqa: E402
 from vision.histeresis import Estabilizador  # noqa: E402
 from vision.reloj import RelojSimulado  # noqa: E402
+from vision.publicador import ErrorPublicacion, Publicador, armar_lugares  # noqa: E402
 
 REGIONES = RAIZ / "config" / "regiones.json"
 SALIDAS = RAIZ / "datos" / "salidas"
@@ -72,6 +73,10 @@ def main() -> None:
     analizador.add_argument("--hasta", default="21:00")
     analizador.add_argument("--max-muestras", type=int, default=0,
                             help="0 = sin limite. Util para una prueba rapida.")
+    analizador.add_argument("--api", default=None,
+                            help="URL base del backend. Por defecto, la de vision/publicador.py")
+    analizador.add_argument("--sin-publicar", action="store_true",
+                            help="recorre el video sin hablar con el backend")
     argumentos = analizador.parse_args()
 
     if not REGIONES.exists():
@@ -96,6 +101,20 @@ def main() -> None:
           f"factor {reloj.factor:.1f}x  ·  muestra cada {argumentos.intervalo} s")
     print(f"Regiones: {len(regiones)}\n")
 
+    espacios = [region.espacio for region in regiones]
+    publicador = None
+    if not argumentos.sin_publicar:
+        publicador = Publicador(url_base=argumentos.api) if argumentos.api else Publicador()
+        try:
+            corrida = publicador.reiniciar()
+        except ErrorPublicacion as error:
+            raise SystemExit(
+                f"\n{error}\n\n"
+                "Levanta el backend en otra consola con:\n"
+                "    python -m uvicorn api.principal:app\n"
+                "O corre esto con --sin-publicar para no publicar nada.\n"
+            )
+        print(f"Backend: {publicador.url_base}  ·  corrida {corrida}\n")
     # Import tardio: ultralytics tarda en cargar y asi el error de
     # configuracion aparece antes que la espera.
     from vision.detector import DetectorVehiculos
@@ -128,6 +147,9 @@ def main() -> None:
         confirmado = estabilizador.estado
         ocupados = sum(1 for v in confirmado.values() if v)
         por_hora.setdefault(instante.hour, []).append(ocupados)
+        if publicador is not None:
+            publicador.publicar(instante, indice,
+                                armar_lugares(espacios, confirmado, asignaciones))
 
         contadas += 1
         if argumentos.max_muestras and contadas >= argumentos.max_muestras:
@@ -158,6 +180,8 @@ def main() -> None:
             escritor.writerow([t.espacio, t.etiqueta, t.instante.isoformat(),
                                round(t.duracion_anterior_s)])
     print(f"Transiciones guardadas en: {destino}")
+    if publicador is not None:
+        print(publicador.resumen())
 
 
 if __name__ == "__main__":
