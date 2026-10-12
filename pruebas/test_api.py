@@ -166,3 +166,17 @@ def test_la_raiz_sirve_el_tablero():
 def test_las_paginas_no_tapan_la_api():
     assert cliente.get("/historial.html").status_code == 200
     assert cliente.get("/api/v1/salud").status_code == 200
+
+def test_salud_responde_ok_aunque_no_haya_datos(monkeypatch, tmp_path):
+    """Con la base vacia no hay estado, pero el servicio esta sano."""
+    from api import almacen, principal
+
+    vacio = almacen.Almacen(ESPACIOS, tmp_path / "vacia.db")
+    monkeypatch.setattr(principal, "memoria", vacio)
+
+    respuesta = cliente.get("/api/v1/salud")
+    vacio.conexion.close()
+
+    assert respuesta.status_code == 200
+    assert respuesta.json()["estado"] == "ok"
+    assert respuesta.json()["ultimo_estado_hace_s"] is None

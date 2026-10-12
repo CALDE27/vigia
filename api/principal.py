@@ -188,11 +188,18 @@ def obtener_transiciones(
     summary="Estado del propio backend",
 )
 def salud() -> esquemas.Salud:
+    # Sin publicaciones todavia, el almacen levanta sin_datos al pedirle el
+    # estado. Eso es un dato ("nadie publico"), no una falla del servicio:
+    # salud responde ok igual y deja el campo en null.
+    try:
+        hace = memoria.estado_actual().actualizado_hace_s
+    except ErrorVigia:
+        hace = None
     return esquemas.Salud(
         estado="ok",
         version=VERSION,
         corrida=memoria.corrida,
-        ultimo_estado_hace_s=memoria.estado_actual().actualizado_hace_s,
+        ultimo_estado_hace_s=hace,
         lugares_configurados=len(ESPACIOS),
     )
 
