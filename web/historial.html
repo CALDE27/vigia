@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vigía · Historial</title>
+  <link rel="stylesheet" href="historial.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <h1 class="marca">VIGÍA</h1>
+    <p class="bajada">Historial de movimientos</p>
+    <a class="volver" href="index.html">← volver al tablero</a>
+  </header>
+
+  <main>
+
+    <p id="aviso" class="aviso aviso--oculto" role="status"></p>
+
+    <section class="controles">
+      <label for="filtro-espacio">Lugar</label>
+      <select id="filtro-espacio">
+        <option value="">Todos</option>
+        <option value="P01">P01</option>
+        <option value="P02">P02</option>
+        <option value="P03">P03</option>
+        <option value="P04">P04</option>
+        <option value="P05">P05</option>
+        <option value="P06">P06</option>
+        <option value="P07">P07</option>
+      </select>
+      <button id="btn-recargar" type="button">Actualizar</button>
+    </section>
+
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Hora</th>
+          <th>Lugar</th>
+          <th>Movimiento</th>
+          <th>Estuvo antes</th>
+        </tr>
+      </thead>
+      <tbody id="filas" aria-live="polite"></tbody>
+    </table>
+
+    <nav class="paginador">
+      <button id="btn-anterior" type="button" disabled>← Anteriores</button>
+      <span id="rango">—</span>
+      <button id="btn-siguiente" type="button" disabled>Siguientes →</button>
+    </nav>
+
+  </main>
+
+  <script src="historial.js"></script>
+
+</body>
+</html>
