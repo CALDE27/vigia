@@ -14,9 +14,10 @@ from fastapi import Depends, FastAPI, Header, Query
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from api import almacen, esquemas, falsos
-from api.configuracion import (CLAVE_SERVICIO, RUTA_BASE, USAR_FALSOS,
+from api.configuracion import (CLAVE_SERVICIO, RAIZ, RUTA_BASE, USAR_FALSOS,
                                VERSION, leer_espacios)
 from api.errores import ErrorVigia
 
@@ -195,7 +196,9 @@ def salud() -> esquemas.Salud:
         lugares_configurados=len(ESPACIOS),
     )
 
+# --- El frontend ---------------------------------------------------------
 
-@app.get("/", include_in_schema=False)
-def raiz() -> dict:
-    return {"vigia": VERSION, "documentacion": "/docs"}
+# La misma aplicacion sirve el tablero y el historial. Va al final a
+# proposito: un montaje en "/" atiende cualquier ruta, asi que tiene que
+# registrarse despues de los endpoints de /api/v1 para no taparlos.
+app.mount("/", StaticFiles(directory=RAIZ / "web", html=True), name="web")

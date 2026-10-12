@@ -185,4 +185,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nProcesamiento interrumpido. La API sigue con el ultimo estado publicado.")

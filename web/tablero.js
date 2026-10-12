@@ -1,6 +1,6 @@
 "use strict";
 
-const URL_API = "http://127.0.0.1:8000/api/v1";
+const URL_API = "/api/v1";
 const REFRESCO_MS = 3000;
 const UMBRAL_FRESCURA_S = 10;
 

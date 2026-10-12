@@ -154,3 +154,15 @@ def test_el_reinicio_abre_una_corrida_nueva():
 
 def test_el_reinicio_sin_clave_da_401():
     assert cliente.post("/api/v1/reinicio").status_code == 401
+
+
+def test_la_raiz_sirve_el_tablero():
+    respuesta = cliente.get("/")
+    assert respuesta.status_code == 200
+    assert "text/html" in respuesta.headers["content-type"]
+    assert "tablero.js" in respuesta.text
+
+
+def test_las_paginas_no_tapan_la_api():
+    assert cliente.get("/historial.html").status_code == 200
+    assert cliente.get("/api/v1/salud").status_code == 200
