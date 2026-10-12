@@ -98,3 +98,12 @@ body.desactualizado .resumen {
   opacity: 0.35;
   filter: grayscale(1);
 }
+
+.volver {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--texto-tenue);
+  font-size: 13px;
+  text-decoration: none;
+}
+.volver:hover { color: var(--texto); }
