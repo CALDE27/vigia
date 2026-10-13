@@ -129,24 +129,41 @@ main {
 
 .resumen {
   display: flex;
-  gap: 16px;
-  justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  align-items: baseline;
+  gap: 8px 36px;
+  margin-bottom: 28px;
 }
+
 .tarjeta-resumen {
-  background: var(--tinta-suave);
-  border-radius: 12px;
-  padding: 14px 26px;
-  text-align: center;
-  min-width: 110px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
-.numero { display: block; font-size: 32px; font-weight: 700; }
+
+.numero {
+  font-family: var(--letra-angosta);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
 .etiqueta {
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 18px;
   color: var(--texto-tenue);
+}
+
+.tarjeta-resumen:first-child .numero {
+  font-size: 136px;
+  letter-spacing: -0.02em;
+  color: var(--libre);
+}
+
+.tarjeta-resumen:first-child .etiqueta {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--texto);
 }
 
 .tablero {
@@ -202,5 +219,12 @@ body.desactualizado .resumen {
   .bajada {
     order: 3;
     flex-basis: 100%;
+  }
+    .tarjeta-resumen:first-child {
+    flex-basis: 100%;
+  }
+
+  .tarjeta-resumen:first-child .numero {
+    font-size: 88px;
   }
 }
