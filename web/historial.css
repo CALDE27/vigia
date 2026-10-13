@@ -127,72 +127,75 @@ main {
 
 .controles {
   display: flex;
-  gap: 12px;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
-  max-width: 820px;
-  margin: 0 auto 18px;
-  font-size: 14px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 .controles label { color: var(--texto-tenue); }
 
-select, button {
+select,
+button {
   font: inherit;
   color: var(--texto);
   background: var(--tinta-suave);
-  border: 1px solid #33455C;
-  border-radius: 8px;
-  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--radio);
+  padding: 10px 16px;
   cursor: pointer;
 }
-button:hover:not(:disabled) { border-color: var(--texto-tenue); }
+select:hover,
+button:hover:not(:disabled) { background: var(--linea); }
 button:disabled { opacity: 0.4; cursor: default; }
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 2px;
+}
 
 .tabla {
   width: 100%;
-  max-width: 820px;
-  margin: 0 auto;
   border-collapse: collapse;
-  font-size: 14px;
 }
 .tabla th {
   text-align: left;
-  padding: 10px 12px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--texto-tenue);
-  border-bottom: 2px solid #33455C;
+  border-bottom: 2px solid var(--linea);
 }
 .tabla td {
-  padding: 11px 12px;
-  border-bottom: 1px solid #263A50;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--linea-suave);
 }
-.tabla tbody tr:hover { background: var(--tinta-suave); }
+.tabla tbody tr:hover { background: var(--tinta); }
 
 .hora { font-variant-numeric: tabular-nums; }
-.lugar { font-weight: 700; letter-spacing: 0.04em; }
+.lugar {
+  font-family: var(--letra-angosta);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 .movimiento { font-weight: 700; }
 .movimiento--entro { color: var(--ocupado); }
 .movimiento--salio { color: var(--libre); }
-.antes { color: var(--texto-tenue); }
+.antes { color: var(--texto-tenue); font-variant-numeric: tabular-nums; }
 
 .vacio {
-  padding: 28px 12px;
-  text-align: center;
+  padding: 32px 14px;
   color: var(--texto-tenue);
 }
 
 .paginador {
   display: flex;
-  gap: 16px;
   align-items: center;
-  justify-content: center;
-  max-width: 820px;
-  margin: 20px auto 0;
-  font-size: 13px;
+  gap: 16px;
+  margin-top: 20px;
+  font-size: 14px;
   color: var(--texto-tenue);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 600px) {
@@ -207,5 +210,10 @@ button:disabled { opacity: 0.4; cursor: default; }
   .bajada {
     order: 3;
     flex-basis: 100%;
+  }
+    .tabla th,
+  .tabla td {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 }
