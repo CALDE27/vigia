@@ -261,4 +261,10 @@ body.desactualizado .resumen {
   .lugar {
     min-height: 170px;
   }
+
+}
+@media (prefers-reduced-motion: reduce) {
+  .tablero {
+    transition: none;
+  }
 }
